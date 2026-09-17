@@ -29,20 +29,20 @@ const projects = [
   {
     title: "Farm Management System",
     description: "Manage farm income, expenses, and stock in one place.",
-    link: "",
-    isExternal: true,
+    link: "/projects#farm-management-system",
+    isExternal: false,
   },
   {
     title: "Taktaz Technologies Website",
     description: "A website for Taktaz Technologies and its GPS solutions.",
-    link: "https://taktaztech.com",
-    isExternal: true,
+    link: "/projects#taktaz-technologies-website",
+    isExternal: false,
   },
   {
     title: "Dental Clinic Management System",
     description: "An MIS for managing patients, appointments, and clinic inventory.",
-    link: "",
-    isExternal: true,
+    link: "/projects#dental-clinic-management-system",
+    isExternal: false,
   },
   {
     title: "Monograph and PID Management System",

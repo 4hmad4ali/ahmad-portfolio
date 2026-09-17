@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 
@@ -10,6 +11,9 @@ const projects = [
     description:
       "The Gym Management System brings member information, membership plans, payments, and everyday operational tasks into one focused workspace. It is designed to help gym staff spend less time managing records and more time supporting members.",
     highlights: ["Member and membership management", "Payment and plan tracking", "Clear day-to-day operational workflows"],
+    technologies: [],
+    screenshot: "/images/gym_managment/Screenshot 2026-09-17 dashboard.png",
+    screenshotAlt: "Gym Management System dashboard",
   },
   {
     id: "school-kindergarten-management-system",
@@ -19,6 +23,9 @@ const projects = [
     description:
       "This system is designed to organize student records, enrollment, and administrative workflows in one place. It supports a clearer overview of school operations for teams working across both school and kindergarten programs.",
     highlights: ["Student and enrollment records", "Centralized administrative workflows", "Support for school and kindergarten operations"],
+    technologies: ["Python", "Django 4.2", "MySQL", "Django Templates", "Tailwind CSS", "JavaScript", "Gunicorn", "WhiteNoise"],
+    screenshot: "/images/School_project/داشبورد-کودکستان-گامAdmin panel.png",
+    screenshotAlt: "School and Kindergarten Management System dashboard",
   },
   {
     id: "navarise-website",
@@ -28,6 +35,38 @@ const projects = [
     description:
       "The NavaRise Website focuses on communicating the brand clearly through a modern, responsive interface. It gives visitors an easy way to understand the organization, explore its offerings, and connect with the team.",
     highlights: ["Responsive, modern user experience", "Clear brand and service communication", "Designed for easy visitor navigation"],
+    technologies: ["Next.js", "Tailwind CSS", "Framer Motion"],
+  },
+  {
+    id: "farm-management-system",
+    number: "04",
+    title: "Farm Management System",
+    summary: "An operations platform for organizing farm finances, inventory, and everyday records.",
+    description:
+      "The Farm Management System helps keep income, expenses, and stock records organized in one place. It gives farm teams a practical overview of the information they need to manage daily operations with confidence.",
+    highlights: ["Income and expense tracking", "Stock management", "Centralized farm records"],
+    technologies: ["Python", "Next.js", "Tailwind CSS", "MySQL"],
+  },
+  {
+    id: "taktaz-technologies-website",
+    number: "05",
+    title: "Taktaz Technologies Website",
+    summary: "A public website for Taktaz Technologies and its GPS solutions.",
+    description:
+      "The Taktaz Technologies Website presents the company and its GPS-focused services through a clear, accessible web experience. It helps visitors explore the business, understand its solutions, and get in touch.",
+    highlights: ["Company and service presentation", "GPS solutions overview", "Accessible contact path"],
+    technologies: [],
+    website: "https://taktaztech.com",
+  },
+  {
+    id: "dental-clinic-management-system",
+    number: "06",
+    title: "Dental Clinic Management System",
+    summary: "A management information system for coordinating essential dental clinic workflows.",
+    description:
+      "The Dental Clinic Management System brings patients, appointments, and inventory into one system. It gives clinic staff a more organized way to manage operations and keep core records available when they are needed.",
+    highlights: ["Patient record management", "Appointment coordination", "Inventory oversight"],
+    technologies: ["Laravel 12", "Laravel Blade", "Tailwind CSS", "MySQL"],
   },
 ];
 
@@ -65,6 +104,16 @@ export default function ProjectsPage() {
               <h2 className="mt-10 text-3xl font-medium md:text-5xl">{project.title}</h2>
               <p className="mt-4 max-w-3xl text-xl leading-relaxed text-foreground/80">{project.summary}</p>
               <p className="mt-7 max-w-3xl leading-relaxed text-foreground/70">{project.description}</p>
+              {project.screenshot && (
+                <figure className="mt-8 overflow-hidden rounded-2xl border border-foreground/10 bg-foreground/5">
+                  <Image
+                    src={project.screenshot}
+                    alt={project.screenshotAlt ?? `${project.title} screenshot`}
+                    className="h-auto w-full object-cover"
+                    sizes="(max-width: 768px) 100vw, 960px"
+                  />
+                </figure>
+              )}
               <ul className="mt-8 flex flex-wrap gap-3" aria-label={`${project.title} highlights`}>
                 {project.highlights.map((highlight) => (
                   <li key={highlight} className="rounded-full border border-foreground/15 px-4 py-2 text-sm text-foreground/75">
@@ -72,6 +121,28 @@ export default function ProjectsPage() {
                   </li>
                 ))}
               </ul>
+              {project.technologies.length > 0 && (
+                <div className="mt-8">
+                  <h3 className="text-sm uppercase tracking-[0.16em] text-foreground/55">Technologies</h3>
+                  <ul className="mt-3 flex flex-wrap gap-3" aria-label={`${project.title} technologies`}>
+                    {project.technologies.map((technology) => (
+                      <li key={technology} className="rounded-full bg-foreground px-4 py-2 text-sm text-background">
+                        {technology}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+              {project.website && (
+                <Link
+                  href={project.website}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-8 inline-flex items-center gap-3 rounded-full border border-foreground/25 px-5 py-3 text-sm transition-colors hover:bg-foreground hover:text-background"
+                >
+                  Visit website <FaArrowRight aria-hidden="true" />
+                </Link>
+              )}
             </article>
           ))}
         </div>
