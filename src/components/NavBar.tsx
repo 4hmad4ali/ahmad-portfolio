@@ -10,6 +10,7 @@ import { usePathname } from "next/navigation";
 const NAV_ITEMS = [
   { href: "/#projects", label: "Projects" },
   { href: "/#about", label: "About" },
+  { href: "/#journey", label: "Journey" },
   { href: "/blog", label: "Blog" },
  /*  { href: "/apps", label: "Apps" }, */
   { href: "/#contact", label: "Contact" },
@@ -171,7 +172,7 @@ function DesktopNav({
           <path d="m100,0H0v100C0,44.77,44.77,0,100,0Z" />
         </svg>
         <nav className="px-2.5 h-16 md:h-20 flex items-center transition-[background-color_padding_translate_border-radius_height] duration-300">
-          <ul className="flex items-center gap-8 py-5 px-6 rounded-4xl bg-white/70 shadow-xs backdrop-blur-sm ml-1 dark:text-foreground/80">
+          <ul className="flex items-center gap-3 lg:gap-8 py-5 px-3 lg:px-6 rounded-4xl bg-white/70 shadow-xs backdrop-blur-sm ml-1 dark:text-foreground/80">
             {NAV_ITEMS.map(({ href, label }) => {
               const isActive = href.startsWith("/")
                 ? currentPath.startsWith(href)
