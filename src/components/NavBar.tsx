@@ -16,6 +16,24 @@ const NAV_ITEMS = [
   { href: "/#contact", label: "Contact" },
 ] as const;
 
+function getSectionHash(href: string) {
+  const hashIndex = href.indexOf("#");
+  return hashIndex >= 0 ? href.slice(hashIndex) : "";
+}
+
+function isNavItemActive(href: string, pathname: string, activeHash: string) {
+  const sectionHash = getSectionHash(href);
+
+  if (sectionHash) {
+    if (pathname === "/") return activeHash === sectionHash;
+
+    // Project detail and collection pages belong to the Projects navigation item.
+    return sectionHash === "#projects" && pathname.startsWith("/projects");
+  }
+
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 const SOCIAL_LINKS = [
   // {
   //   href: "https://www.youtube.com/@mahdijafaridev",
@@ -112,9 +130,7 @@ function MobileNav({
           <nav className="flex flex-col items-start my-2.5">
             <ul className="w-full flex flex-col items-start gap-5 px-2.5">
               {NAV_ITEMS.map(({ href, label }) => {
-                const isActive = href.startsWith("/")
-                  ? currentPath.startsWith(href)
-                  : href === activeHash;
+                const isActive = isNavItemActive(href, currentPath, activeHash);
 
                 return (
                   <li
@@ -123,13 +139,19 @@ function MobileNav({
                   >
                     <Link
                       href={href}
-                      className={`hover:text-foreground/70 active:text-foreground transition-colors duration-200 ${
-                        isActive ? "font-bold" : ""
+                      className={`flex items-center justify-between rounded-2xl px-3 py-2 transition-all duration-200 ${
+                        isActive
+                          ? "bg-background text-foreground font-semibold shadow-sm"
+                          : "hover:bg-background/20 hover:text-foreground/70"
                       }`}
-                      aria-current={isActive ? "page" : undefined}
+                      aria-current={isActive ? (href.includes("#") ? "location" : "page") : undefined}
                       onClick={onClose}
                     >
                       {label}
+                      <span
+                        aria-hidden="true"
+                        className={`size-2 rounded-full bg-foreground transition-opacity ${isActive ? "opacity-100" : "opacity-0"}`}
+                      />
                     </Link>
                   </li>
                 );
@@ -174,17 +196,18 @@ function DesktopNav({
         <nav className="px-2.5 h-16 md:h-20 flex items-center transition-[background-color_padding_translate_border-radius_height] duration-300">
           <ul className="flex items-center gap-3 lg:gap-8 py-5 px-3 lg:px-6 rounded-4xl bg-white/70 shadow-xs backdrop-blur-sm ml-1 dark:text-foreground/80">
             {NAV_ITEMS.map(({ href, label }) => {
-              const isActive = href.startsWith("/")
-                ? currentPath.startsWith(href)
-                : href === activeHash;
+              const isActive = isNavItemActive(href, currentPath, activeHash);
 
               return (
                 <li key={href}>
                   <Link
                     href={href}
-                    className={`hover:text-foreground/70 active:text-foreground transition-colors duration-200 ${
-                      isActive ? "font-bold" : ""
+                    className={`relative rounded-full px-3 py-2 transition-all duration-200 ${
+                      isActive
+                        ? "bg-accent font-semibold text-accent-foreground shadow-sm"
+                        : "hover:bg-foreground/5 hover:text-foreground/70 active:text-foreground"
                     }`}
+                    aria-current={isActive ? (href.includes("#") ? "location" : "page") : undefined}
                   >
                     {label}
                   </Link>
@@ -220,37 +243,49 @@ export default function NavBar() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const sections = NAV_ITEMS.filter((item) => item.href.startsWith("#"))
-      .map((item) => ({
-        id: item.href,
-        el: document.querySelector(item.href),
-      }))
-      .filter((s) => s.el);
+    if (pathname !== "/") {
+      setActiveHash("");
+      return;
+    }
+
+    const sections = NAV_ITEMS.map((item) => getSectionHash(item.href))
+      .filter(Boolean)
+      .map((hash) => ({ hash, element: document.querySelector<HTMLElement>(hash) }))
+      .filter((section): section is { hash: string; element: HTMLElement } => Boolean(section.element));
+
+    let frameId = 0;
 
     const onScroll = () => {
-      let current = "";
-      const scrollPos = window.scrollY + 150;
+      cancelAnimationFrame(frameId);
+      frameId = requestAnimationFrame(() => {
+        const viewportMarker = Math.min(220, window.innerHeight * 0.3);
+        const isAtPageEnd = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
+        let current = isAtPageEnd && sections.some(({ hash }) => hash === "#contact") ? "#contact" : "";
 
-      for (const { id, el } of sections) {
-        const top = (el as HTMLElement).offsetTop;
-        const height = (el as HTMLElement).offsetHeight;
-
-        if (scrollPos >= top && scrollPos < top + height) {
-          current = id;
-          break;
+        if (!current) {
+          for (const { hash, element } of sections) {
+            const rect = element.getBoundingClientRect();
+            if (rect.top <= viewportMarker && rect.bottom > viewportMarker) {
+              current = hash;
+              break;
+            }
+          }
         }
-      }
 
-      if (current && current !== activeHash) {
-        setActiveHash(current);
-      }
+        setActiveHash((previous) => (previous === current ? previous : current));
+      });
     };
 
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
     onScroll();
 
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [activeHash]);
+    return () => {
+      cancelAnimationFrame(frameId);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [pathname]);
 
   useEffect(() => {
     if (isMobileMenuOpen) {
