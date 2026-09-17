@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { FaArrowLeft, FaArrowUpRightFromSquare, FaCheck } from "react-icons/fa6";
 import { projects } from "@/lib/projects";
 import TechnologyStack from "@/components/TechnologyStack";
+import MotionReveal from "@/components/MotionReveal";
 
 export function generateStaticParams() {
   return projects.map((project) => ({ slug: project.id }));
@@ -31,7 +32,8 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       <Link href="/#projects" className="inline-flex items-center gap-3 text-sm text-foreground/65 hover:text-foreground">
         <FaArrowLeft aria-hidden="true" /> Back to projects
       </Link>
-      <header className="mb-12 mt-14 border-b border-foreground/15 pb-12">
+      <MotionReveal className="mb-12 mt-14">
+      <header className="border-b border-foreground/15 pb-12">
         <div className="mb-6 flex items-center gap-3 text-xs uppercase tracking-[0.18em] text-foreground/60">
           <span className="size-2 rounded-full bg-accent" aria-hidden="true" /> Completed project / {project.number}
         </div>
@@ -43,18 +45,22 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           </a>
         )}
       </header>
+      </MotionReveal>
       {project.screenshot && (
+        <MotionReveal delay={0.06}>
         <figure className="mb-16">
-          <a href={project.screenshot} target="_blank" rel="noopener noreferrer" aria-label={`Open full-size ${project.title} screenshot in a new tab`} className="block rounded-3xl border border-foreground/15 bg-foreground/5 p-3 md:p-6">
+          <a href={project.screenshot} target="_blank" rel="noopener noreferrer" aria-label={`Open full-size ${project.title} screenshot in a new tab`} className="group block rounded-3xl border border-foreground/15 bg-foreground/5 p-3 transition-[border-color,box-shadow] duration-300 hover:border-accent/50 hover:shadow-xl hover:shadow-foreground/5 md:p-6">
             <div className="relative aspect-video">
-              <Image src={project.screenshot} alt={project.screenshotAlt ?? project.title} fill priority sizes="(max-width: 768px) 100vw, 1152px" className="object-contain" />
+              <Image src={project.screenshot} alt={project.screenshotAlt ?? project.title} fill priority sizes="(max-width: 768px) 100vw, 1152px" className="object-contain transition-transform duration-700 motion-safe:group-hover:scale-[1.015]" />
             </div>
           </a>
           <figcaption className="mt-4 flex justify-between gap-4 text-xs leading-relaxed text-foreground/60">
             <span>{project.screenshotAlt}</span><span>Open image for full detail ↗</span>
           </figcaption>
         </figure>
+        </MotionReveal>
       )}
+      <MotionReveal delay={0.1}>
       <div className="grid gap-12 lg:grid-cols-[1.3fr_1fr] lg:gap-20">
         <div>
           <section aria-labelledby="overview">
@@ -82,10 +88,13 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           </aside>
         )}
       </div>
+      </MotionReveal>
+      <MotionReveal delay={0.12}>
       <footer className="mt-20 flex flex-col justify-between gap-6 border-t border-foreground/15 pt-10 sm:flex-row sm:items-center">
         <p className="text-2xl tracking-tight">Have a project in mind?</p>
         <Link href="/#contact" className="rounded-full bg-accent px-6 py-3 text-center text-sm font-medium text-accent-foreground">Let’s talk ↗</Link>
       </footer>
+      </MotionReveal>
     </main>
   );
 }
