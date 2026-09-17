@@ -1,4 +1,4 @@
-export type JourneyCategory = "education" | "industry" | "community" | "teaching" | "leadership";
+                       export type JourneyCategory = "education" | "industry" | "community" | "teaching" | "leadership";
 
 export interface JourneyEntry {
   id: string;
@@ -16,16 +16,16 @@ export const journey: JourneyEntry[] = [
     id: "school",
     category: "education",
     title: "Where curiosity began",
-    organization: "",
-    period: "",
+    organization: "Hamayoun Shaheeed High school",
+    period: "2009-2020",
     description: "My school years sparked an interest in technology, learning, and problem solving—an early curiosity about how things work and how to build them.",
   },
   {
     id: "university",
     category: "education",
     title: "Learning to build together",
-    organization: "",
-    period: "",
+    organization: "Kabul Polytehcnic University",
+    period: "2021-2025",
     description: "University gave me space to deepen my technical knowledge, explore software development, and grow through teamwork and community activities.",
   },
   {
@@ -49,7 +49,7 @@ export const journey: JourneyEntry[] = [
     category: "industry",
     title: "Continuing to grow",
     organization: "Afghan Wireless Communication Company (AWCC)",
-    period: "",
+    period: "2026-Up to date",
     description: "A further stage of professional and technical development within Afghanistan’s telecommunications sector, building on my earlier industry exposure.",
   },
   {
