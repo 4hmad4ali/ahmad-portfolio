@@ -31,12 +31,14 @@ function Milestone({ entry, index }: { entry: JourneyEntry; index: number }) {
       </span>
       <article className={`min-w-0 rounded-3xl border p-6 transition-colors duration-300 md:p-8 ${index % 2 ? "md:col-start-2" : "md:col-start-1"} ${featured ? "border-accent/60 bg-accent/10" : "border-foreground/15 bg-foreground/[0.02]"} hover:border-accent/60`}>
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3 text-xs leading-relaxed">
-          <span className="uppercase tracking-[0.14em] text-foreground/65">{label}</span>
+          <span className="uppercase tracking-[0.14em] text-foreground/65">{entry.role ?? label}</span>
           {entry.period && <span className="rounded-full border border-foreground/15 px-3 py-1 font-ibmplexmono">{entry.period}</span>}
         </div>
         <h3 className="text-2xl tracking-tight md:text-3xl">{entry.title}</h3>
         {entry.organization && <p className="mt-3 text-sm font-medium leading-relaxed">{entry.organization}</p>}
         <p className="mt-5 text-sm leading-loose text-foreground/70 md:text-base">{entry.description}</p>
+        {entry.mission && <p className="mt-5 border-l-2 border-accent/50 pl-4 text-sm leading-loose text-foreground/65">{entry.mission}</p>}
+        {entry.website && <a href={entry.website} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex rounded-sm text-sm underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">Explore {entry.organization} <span className="ml-2" aria-hidden="true">↗</span><span className="sr-only"> (opens in a new tab)</span></a>}
         {featured && <p className="mt-6 border-t border-accent/25 pt-4 text-xs uppercase tracking-[0.14em] text-foreground/65">Learning continues. Building continues.</p>}
       </article>
     </motion.li>
@@ -83,16 +85,24 @@ function CommunityChapter() {
           {communityEntries.map((entry) => {
             const { label, icon: Icon } = categories[entry.category];
             return (
-              <li key={entry.id} className="min-w-0">
-                <article className="h-full rounded-2xl border border-[#dcb688]/25 bg-background/80 p-5 transition-colors duration-300 hover:border-[#dcb688]/70 md:p-7">
+              <li key={entry.id} className={`min-w-0 ${entry.category === "teaching" ? "md:col-span-2" : ""}`}>
+                <article className={`flex h-full flex-col rounded-2xl border border-[#dcb688]/25 p-5 transition-colors duration-300 hover:border-[#dcb688]/70 md:p-7 ${entry.category === "teaching" ? "bg-[#dcb688]/10" : "bg-background/80"}`}>
                   <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
                     <span aria-hidden="true" className="flex size-11 items-center justify-center rounded-xl bg-[#dcb688]/20 text-[#94602d] dark:text-[#dcb688]"><Icon className="size-5" /></span>
                     {entry.period && <span className="text-xs leading-relaxed text-foreground/65">{entry.period}</span>}
                   </div>
-                  <p className="mb-3 text-xs uppercase tracking-[0.12em] text-foreground/60">{label}</p>
-                  <h4 className="text-xl tracking-tight md:text-2xl">{entry.title}</h4>
-                  {entry.organization && <p className="mt-3 text-sm font-medium leading-relaxed">{entry.organization}</p>}
+                  <p className="mb-3 text-xs uppercase tracking-[0.12em] text-[#825225] dark:text-[#dcb688]">{entry.role ?? label}</p>
+                  <h4 className="text-xl tracking-tight md:text-2xl">{entry.organization || entry.title}</h4>
+                  <p className="mt-3 text-sm font-medium leading-relaxed text-foreground/75">{entry.title}</p>
                   <p className="mt-5 text-sm leading-loose text-foreground/70">{entry.description}</p>
+                  {entry.mission && (
+                    <div className="mt-5 border-t border-[#dcb688]/25 pt-5">
+                      <p className="text-xs uppercase tracking-[0.12em] text-foreground/55">The organization’s mission</p>
+                      <p className="mt-2 text-sm leading-loose text-foreground/65">{entry.mission}</p>
+                    </div>
+                  )}
+                  {entry.focus && <ul aria-label="Areas of focus" className="mt-5 flex flex-wrap gap-2">{entry.focus.map((focus) => <li key={focus} className="rounded-full border border-[#dcb688]/30 px-3 py-1.5 text-xs leading-relaxed text-foreground/70">{focus}</li>)}</ul>}
+                  {entry.website && <div className="mt-auto pt-6"><a href={entry.website} target="_blank" rel="noopener noreferrer" className="inline-flex rounded-sm text-sm underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">Explore the organization <span className="ml-2" aria-hidden="true">↗</span><span className="sr-only"> (opens in a new tab)</span></a></div>}
                 </article>
               </li>
             );
