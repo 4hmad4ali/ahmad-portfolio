@@ -30,9 +30,11 @@ function technologyIcon(name: string): IconType {
 }
 
 export default function TechnologyStack({ technologies, compact = false }: { technologies: string[]; compact?: boolean }) {
+  const visibleTechnologies = compact ? technologies.slice(0, 4) : technologies;
+
   return (
     <ul className="flex flex-wrap gap-2" aria-label="Technologies used">
-      {(compact ? technologies.slice(0, 4) : technologies).map((name) => {
+      {visibleTechnologies.map((name) => {
         const Icon = technologyIcon(name);
         return (
           <li key={name} className="inline-flex items-center gap-2 rounded-xl border border-foreground/10 bg-foreground/5 px-3 py-2 text-xs leading-relaxed">
@@ -41,6 +43,11 @@ export default function TechnologyStack({ technologies, compact = false }: { tec
           </li>
         );
       })}
+      {compact && technologies.length > visibleTechnologies.length && (
+        <li className="inline-flex items-center rounded-xl border border-foreground/10 bg-foreground/5 px-3 py-2 text-xs text-foreground/60">
+          +{technologies.length - visibleTechnologies.length} more
+        </li>
+      )}
     </ul>
   );
 }
