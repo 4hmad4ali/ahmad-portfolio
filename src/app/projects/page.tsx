@@ -152,12 +152,15 @@ export default function ProjectsPage() {
               <p className="mt-7 max-w-3xl leading-relaxed text-foreground/70">{project.description}</p>
               {project.screenshot && (
                 <figure className="mt-8 overflow-hidden rounded-2xl border border-foreground/10 bg-foreground/5">
-                  <Image
-                    src={project.screenshot}
-                    alt={project.screenshotAlt ?? `${project.title} screenshot`}
-                    className="h-auto w-full object-cover"
-                    sizes="(max-width: 768px) 100vw, 960px"
-                  />
+                  <div className="relative aspect-video w-full">
+                    <Image
+                      src={project.screenshot}
+                      alt={project.screenshotAlt ?? `${project.title} screenshot`}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, 960px"
+                    />
+                  </div>
                 </figure>
               )}
               <ul className="mt-8 flex flex-wrap gap-3" aria-label={`${project.title} highlights`}>
