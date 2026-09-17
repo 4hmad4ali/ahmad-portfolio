@@ -6,20 +6,41 @@ import { FaArrowRight } from "react-icons/fa6";
 
 const projects = [
   {
-    title: "Farm Managment System",
-    description: "Manage Income and Expences of the farm and keep track of the stock",
+    title: "Gym Management System",
+    description:
+      "A streamlined platform for managing members, memberships, payments, and daily gym operations.",
+    link: "/projects#gym-management-system",
+    isExternal: false,
+  },
+  {
+    title: "School & Kindergarten Management System",
+    description:
+      "A unified system for organizing student records, enrollment, administration, and school operations.",
+    link: "/projects#school-kindergarten-management-system",
+    isExternal: false,
+  },
+  {
+    title: "NavaRise Website",
+    description:
+      "A responsive web experience that presents NavaRise with clear storytelling and a strong digital presence.",
+    link: "/projects#navarise-website",
+    isExternal: false,
+  },
+  {
+    title: "Farm Management System",
+    description: "Manage farm income, expenses, and stock in one place.",
     link: "",
     isExternal: true,
   },
   {
-    title: "TaztazTechnologies Website",
-    description: "A great website for Taktaz Technologies GPS ",
+    title: "Taktaz Technologies Website",
+    description: "A website for Taktaz Technologies and its GPS solutions.",
     link: "https://taktaztech.com",
     isExternal: true,
   },
   {
-    title: "Dental Clinic management System",
-    description: "And MiS for dental clinic to manage patients, appointments, and inventory",
+    title: "Dental Clinic Management System",
+    description: "An MIS for managing patients, appointments, and clinic inventory.",
     link: "",
     isExternal: true,
   },
