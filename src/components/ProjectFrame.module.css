@@ -1,0 +1,73 @@
+.frame {
+  position: relative;
+  min-width: 0;
+  padding: 4.5rem 2rem 4rem;
+  border-radius: 0 3rem 0 3rem;
+  background: var(--project-surface, #e9d6b8);
+}
+
+.label,
+.caption {
+  position: absolute;
+  background: var(--background);
+  color: var(--foreground);
+  font-size: 0.75rem;
+  line-height: 1.5;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.label {
+  top: 0;
+  left: 0;
+  padding: 0 1.75rem 1rem 0;
+  border-bottom-right-radius: 1.75rem;
+}
+
+.caption {
+  bottom: 0;
+  right: 0;
+  max-width: calc(100% - 3rem);
+  padding: 1rem 0 0 1.75rem;
+  border-top-left-radius: 1.75rem;
+}
+
+.labelRight,
+.labelBottom,
+.captionTop,
+.captionLeft {
+  position: absolute;
+  width: 1.5rem;
+  height: 1.5rem;
+  pointer-events: none;
+}
+
+.labelRight {
+  right: -1.5rem;
+  top: 0;
+}
+.labelBottom {
+  left: 0;
+  bottom: -1.5rem;
+}
+.captionTop {
+  right: 0;
+  top: -1.5rem;
+  transform: rotate(180deg);
+}
+.captionLeft {
+  left: -1.5rem;
+  bottom: 0;
+  transform: rotate(180deg);
+}
+
+@media (max-width: 639px) {
+  .frame {
+    padding: 3.5rem 0.75rem 3rem;
+    border-radius: 0 2rem 0 2rem;
+  }
+  .label,
+  .caption {
+    font-size: 0.65rem;
+  }
+}

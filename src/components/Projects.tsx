@@ -3,7 +3,7 @@ import ProjectCards from "@/components/ProjectCards";
 
 export default function Projects() {
   return (
-    <section className="mx-auto my-24 max-w-7xl px-5 md:px-12" id="projects">
+    <section className="mx-auto my-24 max-w-7xl scroll-mt-32 px-5 md:px-12" id="projects">
       <header className="mb-12 flex flex-col justify-between gap-6 md:flex-row md:items-end">
         <div>
           <p className="mb-5 text-xs uppercase tracking-[0.22em] text-foreground/60">Selected work</p>

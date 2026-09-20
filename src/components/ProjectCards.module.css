@@ -1,0 +1,202 @@
+.collection {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  align-items: start;
+  gap: 3.5rem 1.25rem;
+}
+
+.project {
+  min-width: 0;
+  grid-column: span 7;
+  scroll-margin-top: 8rem;
+}
+
+.project:nth-child(4n + 2),
+.project:nth-child(4n + 3) {
+  grid-column: span 5;
+}
+
+.project:nth-child(even) {
+  margin-top: 5rem;
+}
+
+.link {
+  display: block;
+  min-width: 0;
+  border-radius: 2rem;
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 8px;
+}
+
+.visual {
+  --surface: var(--project-surface, #e9d6b8);
+  position: relative;
+  display: grid;
+  align-items: center;
+  min-width: 0;
+  min-height: 20rem;
+  padding: 4.5rem 1.5rem 4rem;
+  isolation: isolate;
+  border-radius: 0 2.5rem 0 2.5rem;
+  background: var(--surface);
+  color: #292b2b;
+}
+
+.index,
+.category {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.index {
+  left: 0;
+  top: 0;
+  width: 5rem;
+  height: 3rem;
+  padding: 0 1.25rem 0.75rem 0.25rem;
+  border-bottom-right-radius: 1.75rem;
+  font-size: 1.25rem;
+}
+
+.indexRight,
+.indexBottom,
+.categoryTop,
+.categoryLeft {
+  position: absolute;
+  width: 1.5rem;
+  height: 1.5rem;
+  pointer-events: none;
+}
+
+.indexRight { top: 0; right: -1.5rem; }
+.indexBottom { bottom: -1.5rem; left: 0; }
+
+.category {
+  bottom: 0;
+  right: 0;
+  max-width: calc(100% - 2rem);
+  min-height: 2.75rem;
+  padding: 0.9rem 0.25rem 0 1.25rem;
+  border-top-left-radius: 1.75rem;
+  font-size: 0.65rem;
+  line-height: 1.5;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.categoryTop { right: 0; top: -1.5rem; transform: rotate(180deg); }
+.categoryLeft { left: -1.5rem; bottom: 0; transform: rotate(180deg); }
+
+.screen {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 0.65rem;
+  background: #f6f6f4;
+  box-shadow: 0 14px 30px #25272820;
+  transition: transform 350ms ease;
+}
+
+.screenshot {
+  object-fit: contain;
+}
+
+.overview {
+  position: relative;
+  display: flex;
+  align-items: end;
+  min-height: 13rem;
+}
+
+.bigNumber {
+  position: absolute;
+  right: 0;
+  top: -1.5rem;
+  font-size: clamp(6rem, 13vw, 11rem);
+  font-weight: 600;
+  line-height: 1;
+  opacity: 0.12;
+}
+
+.highlights {
+  position: relative;
+  display: grid;
+  gap: 0.8rem;
+  max-width: 22rem;
+}
+
+.highlights li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.highlights li > span {
+  flex: 0 0 0.4rem;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.details { padding: 1.5rem 0.25rem 0; }
+
+.heading {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.heading h3 {
+  max-width: 30rem;
+  min-width: 0;
+  font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+  letter-spacing: -0.045em;
+  overflow-wrap: break-word;
+}
+
+.arrow {
+  flex: 0 0 3rem;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--foreground);
+  color: var(--background);
+  transition: background 200ms, color 200ms;
+}
+
+.arrow svg { transform: rotate(-45deg); transition: transform 200ms; }
+.link:hover .arrow { background: var(--accent); color: var(--accent-foreground); }
+.link:hover .arrow svg { transform: rotate(0); }
+.link:hover .screen { transform: translateY(-4px); }
+.summary { max-width: 34rem; margin: 1rem 0 1.25rem; font-size: 0.95rem; line-height: 1.7; opacity: 0.7; }
+.caseStudy { display: inline-flex; gap: 0.75rem; margin-top: 1.5rem; font-size: 0.8rem; }
+
+@media (max-width: 767px) {
+  .collection { grid-template-columns: minmax(0, 1fr); gap: 3rem; }
+  .project,
+  .project:nth-child(4n + 2),
+  .project:nth-child(4n + 3) { grid-column: auto; margin-top: 0; }
+  .visual { min-height: 17rem; padding: 4rem 1rem 3.5rem; border-radius: 0 2rem 0 2rem; }
+  .overview { min-height: 11rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screen,
+  .arrow,
+  .arrow svg { transition: none; }
+  .link:hover .screen { transform: none; }
+}
