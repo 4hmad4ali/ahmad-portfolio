@@ -11,9 +11,9 @@ const NAV_ITEMS = [
   { href: "/#projects", label: "Projects" },
   { href: "/#about", label: "About" },
   { href: "/#journey", label: "Journey" },
+  { href: "/#contact", label: "Contact" },
   { href: "/blog", label: "Blog" },
  /*  { href: "/apps", label: "Apps" }, */
-  { href: "/#contact", label: "Contact" },
 ] as const;
 
 function getSectionHash(href: string) {
