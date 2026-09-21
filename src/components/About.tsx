@@ -1,82 +1,123 @@
+import Image from "next/image";
 import Link from "next/link";
 import { FaArrowRight, FaLaravel, FaPython } from "react-icons/fa6";
-import { FaReact } from "react-icons/fa";
 import { AiOutlineOpenAI } from "react-icons/ai";
-import Image from "next/image";
-import Highlighter from "@/components/Highlighter";
+import { SiNextdotjs, SiNodedotjs, SiTypescript } from "react-icons/si";
+import CornerSVG from "@/components/CornerSVG";
+import styles from "./About.module.css";
+
+const technologyGroups = [
+  {
+    label: "Backend",
+    technologies: [
+      { name: "Laravel", icon: FaLaravel },
+      { name: "Python", icon: FaPython },
+      { name: "Node.js", icon: SiNodedotjs },
+    ],
+  },
+  {
+    label: "Frontend",
+    technologies: [
+      { name: "TypeScript", icon: SiTypescript },
+      { name: "Next.js", icon: SiNextdotjs },
+    ],
+  },
+  {
+    label: "AI",
+    technologies: [{ name: "Generative AI", icon: AiOutlineOpenAI }],
+  },
+];
 
 export default function About() {
   return (
-    <section className="my-20 px-4 md:px-8" id="about">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-center">
-          <div className="border border-foreground mb-10 uppercase text-sm transition duration-300 inline-flex rounded-3xl py-1.5 px-2.5">
-            about me
-          </div>
-        </div>
-        <div className="flex flex-col md:flex-row gap-10 md:gap-20 items-center justify-center">
-          <div className="relative w-full max-w-md md:max-w-sm lg:max-w-md aspect-4/5">
-            <div
-              className="
-                relative w-full h-full
-                mask-[url('/mask.svg')]
-                mask-no-repeat
-                mask-contain
-                mask-center
-              "
-            >
-              <Image
-                src="/4.jpg"
-                alt="Ahmad Hussaini Picture"
-                fill
-                className="object-cover"
-                priority
-              />
+    <section
+      className={styles.section}
+      id="about"
+      aria-labelledby="about-heading"
+    >
+      <header className={styles.header}>
+        <span className={styles.eyebrow}>
+          <span aria-hidden="true" /> About me
+        </span>
+        <span className={styles.headerNote}>
+          The person behind the projects
+        </span>
+      </header>
+
+      <div className={styles.layout}>
+        <figure className={styles.portrait}>
+          <div className={styles.photo}>
+            <Image
+              src="/4.jpg"
+              alt="Ahmad Hussaini"
+              fill
+              sizes="(max-width: 767px) 320px, (max-width: 1279px) 40vw, 420px"
+              className={styles.image}
+            />
+            <div className={styles.experience}>
+              <CornerSVG className={styles.cornerTop} />
+              <span className={styles.experienceNumber}>1.5</span>
+              <span className={styles.experienceLabel}>
+                years of
+                <br />
+                experience
+              </span>
+              <CornerSVG className={styles.cornerLeft} />
             </div>
           </div>
-          <div className="w-full md:w-2/3 flex flex-col gap-10 md:gap-20">
-            <p className="text-3xl md:text-4xl leading-relaxed text-foreground/90">
-              I&#39;m a software engineer with{" "}
-              <Highlighter
-                className="font-bold text-foreground whitespace-nowrap"
-                size="md"
-              >
-                1+ years of experience
-              </Highlighter>{" "}
-              building and scaling web applications. I mainly work with{" "}
-              <Link href="#skills">
-                <Highlighter className="font-bold text-foreground" size="md">
-                  <FaLaravel className="inline-block mr-0.5" />
-                  Laravel
-                </Highlighter>
-              </Link>
-              ,{" "}
-              <Link href="#skills">
-                <Highlighter className="font-bold text-foreground" size="md">
-                  <AiOutlineOpenAI className="inline-block mr-0.5" />
-                  Generative AI
-                </Highlighter>
-              </Link>{" "}
-              and{" "}
-              <Link href="#skills">
-                <Highlighter
-                  className="font-bold text-foreground whitespace-nowrap"
-                  size="md"
-                >
-                  <FaReact className="inline-block mr-0.5" />
-                  Frontend Development
-                </Highlighter>
-              </Link>{" "}
-              to deliver high-quality web applications.
-            </p>
-            <Link
-              href="#contact"
-              className="group bg-accent rounded-4xl px-4.5 py-2.5 flex items-center gap-2.5 text-xl mt-2.5 w-fit text-foreground hover:text-foreground/80 hover:bg-accent/80 transition-colors duration-300"
-            >
-              Get in Touch
-              <div className="border border-foreground rounded-full p-2.5 group-hover:scale-105 group-hover:-rotate-3 transition-all duration-300">
-                <FaArrowRight aria-hidden="true" />
-              </div>
+          <figcaption className={styles.caption}>
+            <span className={styles.name}>Ahmad Hussaini</span>
+            <span className={styles.role}>Software engineer</span>
+          </figcaption>
+        </figure>
+
+        <div className={styles.content}>
+          <h2 id="about-heading" className={styles.title}>
+            A practical mind.
+            <br />
+            <span>A builder at heart.</span>
+          </h2>
+          <p className={styles.introduction}>
+            I’m Ahmad, a software engineer with{" "}
+            <strong>1.5 years of experience</strong> turning real-world needs
+            into reliable web applications and digital systems.
+          </p>
+          <p className={styles.description}>
+            My work connects the logic behind an application with the experience
+            people have using it—from organized data and dependable APIs to
+            clear, responsive interfaces.
+          </p>
+
+          <div className={styles.stack}>
+            <h3 className={styles.stackHeading}>The tools behind my work</h3>
+            <dl className={styles.groups}>
+              {technologyGroups.map(({ label, technologies }) => (
+                <div className={styles.group} key={label}>
+                  <dt>{label}</dt>
+                  <dd>
+                    <ul aria-label={`${label} technologies`}>
+                      {technologies.map(({ name, icon: Icon }) => (
+                        <li key={name}>
+                          <Icon aria-hidden="true" />
+                          <span>{name}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+
+          <div className={styles.actions}>
+            <Link href="#contact" className={styles.contact}>
+              Let’s talk
+              <span aria-hidden="true">
+                <FaArrowRight />
+              </span>
+            </Link>
+            <Link href="#journey" className={styles.journey}>
+              Follow my journey <span aria-hidden="true">↗</span>
             </Link>
           </div>
         </div>

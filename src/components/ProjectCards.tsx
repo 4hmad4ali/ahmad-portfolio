@@ -66,7 +66,6 @@ export default function ProjectCards() {
               </div>
               <p className={styles.summary}>{project.summary}</p>
               {project.technologies.length > 0 && <TechnologyStack technologies={project.technologies} compact />}
-              <span className={styles.caseStudy}>Explore project <span aria-hidden="true">↗</span></span>
             </div>
           </Link>
         </motion.article>
