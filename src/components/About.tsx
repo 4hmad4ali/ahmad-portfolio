@@ -116,9 +116,7 @@ export default function About() {
                 <FaArrowRight />
               </span>
             </Link>
-            <Link href="#journey" className={styles.journey}>
-              Follow my journey <span aria-hidden="true"> </span>
-            </Link>
+            
           </div>
         </div>
       </div>

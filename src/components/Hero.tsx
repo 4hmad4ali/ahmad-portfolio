@@ -5,6 +5,8 @@ import React from "react";
 import Image from "next/image";
 import CornerSVG from "@/components/CornerSVG";
 import CornerArrow from "@/components/CornerArrow";
+import styles from "./Hero.module.css";
+import heroPortrait from "../../public/5.png";
 
 function GetInTouchCard() {
   return (
@@ -39,33 +41,26 @@ function BlogCard() {
 
 function HeroLeft() {
   return (
-    <div className="relative bg-background rounded-tl-4xl rounded-tr-4xl h-[90dvh] md:h-full rounded-br-4xl w-full md:w-3/4 overflow-hidden">
-      <Image
-        src="/hero.jpg"
-        alt="Ahmad Hussaini - Software Engineer"
-        className="object-cover w-full h-full"
-        fill
-        priority
-      />
+    <div className={styles.canvas}>
+      <div className={styles.portraitFrame}>
+        <Image
+          src={heroPortrait}
+          alt="Portrait of Ahmad Hussaini smiling in a dark blazer"
+          className={styles.portrait}
+          fill
+          priority
+          sizes="(min-width: 768px) 75vw, 100vw"
+        />
+      </div>
 
       {/* Bottom left content box */}
-      <div className="absolute bottom-0 w-4/5 md:w-1/2 h-1/5 bg-background pr-2 rounded-tr-4xl flex flex-col justify-center items-start">
+      <div className={styles.headline}>
         <CornerSVG className="w-6 h-6 absolute -top-6 left-0  rotate-270" />
         <CornerSVG className="w-6 h-6 absolute bottom-0 -right-6 rotate-270" />
 
-        {/*<Linkhref="#projects"*/}
-        {/*  aria-label="Get in Touch"*/}
-        {/*  className="bg-[url('/hero.jpg')] rounded-4xl flex flex-col relative p-8 group h-full w-full mt-2.5"*/}
-        {/*>*/}
-        {/*  <span className="hover:scale-102 transition-transform duration-300">*/}
-        {/*    <h1 className="text-2xl md:text-3xl font-bold mb-3 leading-tight">*/}
-        {/*      Building systems that solve real problems.{" "}*/}
-        {/*    </h1>*/}
-        {/*  </span>*/}
-        {/*  <CornerArrow icon={FaArrowRight} ariaLabel="Get in Touch" />*/}
-        {/*</Link>*/}
-        <h1 className="text-3xl md:text-4xl">
-          Building systems that <span className="font-bold">solve real problems</span>
+        <h1>
+          Building systems that{" "}
+          <span className="font-bold">solve real problems</span>
         </h1>
       </div>
     </div>

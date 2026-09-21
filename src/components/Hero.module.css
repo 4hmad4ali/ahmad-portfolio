@@ -1,0 +1,62 @@
+.canvas {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 100%;
+  min-width: 0;
+  aspect-ratio: 1 / 1.35;
+  max-height: 560px;
+  overflow: hidden;
+  border-radius: 32px 32px 32px 0;
+  background: #211e1b;
+}
+
+.portraitFrame {
+  position: absolute;
+  inset: 0;
+}
+
+.portrait {
+  object-fit: cover;
+  object-position: 50% 0%;
+}
+
+.headline {
+  position: relative;
+  z-index: 1;
+  width: 84%;
+  padding: 20px 18px 4px 0;
+  background: var(--background);
+  border-top-right-radius: 32px;
+}
+
+.headline h1 {
+  font-size: clamp(25px, 6.6vw, 32px);
+  line-height: 1.15;
+  letter-spacing: -0.9px;
+  text-wrap: balance;
+}
+
+@media (min-width: 768px) {
+  .portrait {
+    object-position: 50% 50%;
+  }
+
+  .canvas {
+    width: 75%;
+    min-height: 0;
+    max-height: none;
+    aspect-ratio: auto;
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .headline {
+    width: 60%;
+    padding-top: 24px;
+  }
+  .headline h1 {
+    font-size: clamp(30px, 3vw, 40px);
+  }
+}
