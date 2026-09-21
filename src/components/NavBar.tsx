@@ -4,8 +4,9 @@ import Logo from "@/components/Logo";
 import { FaGithub, FaLinkedin } from "react-icons/fa6";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { usePathname } from "next/navigation";
+import styles from "./MobileNav.module.css";
 
 const NAV_ITEMS = [
   { href: "/#projects", label: "Projects" },
@@ -13,7 +14,7 @@ const NAV_ITEMS = [
   { href: "/#journey", label: "Journey" },
   { href: "/#contact", label: "Contact" },
   { href: "/blog", label: "Blog" },
- /*  { href: "/apps", label: "Apps" }, */
+  /*  { href: "/apps", label: "Apps" }, */
 ] as const;
 
 function getSectionHash(href: string) {
@@ -52,13 +53,9 @@ const SOCIAL_LINKS = [
   },
 ] as const;
 
-function SocialLinks({ isMobile = false }: { isMobile?: boolean }) {
-  const borderColor = isMobile ? "border-accent" : "border-foreground";
-
+function SocialLinks() {
   return (
-    <ul
-      className={`flex text-2xl gap-2.5 px-2.5 py-1.5 rounded-full border-2 ${borderColor}`}
-    >
+    <ul className={styles.socials}>
       {SOCIAL_LINKS.map(({ href, icon: Icon, label }) => (
         <li key={href}>
           <Link
@@ -66,9 +63,13 @@ function SocialLinks({ isMobile = false }: { isMobile?: boolean }) {
             target="_blank"
             aria-label={label}
             rel="noreferrer"
-            className="hover:text-foreground/70 active:text-foreground transition-colors duration-300"
+            className={styles.socialLink}
           >
-            <Icon />
+            <Icon aria-hidden="true" />
+            <span>{label}</span>
+            <span aria-hidden="true" className={styles.externalArrow}>
+              ↗
+            </span>
           </Link>
         </li>
       ))}
@@ -89,78 +90,141 @@ function MobileNav({
   activeHash: string;
   currentPath: string;
 }) {
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        onClose();
+        buttonRef.current?.focus();
+      }
+    };
+    const closeOutside = (event: PointerEvent) => {
+      if (!wrapperRef.current?.contains(event.target as Node)) onClose();
+    };
+    const desktopQuery = window.matchMedia("(min-width: 768px)");
+    const closeOnDesktop = () => {
+      if (desktopQuery.matches) onClose();
+    };
+    document.addEventListener("keydown", closeOnEscape);
+    document.addEventListener("pointerdown", closeOutside);
+    desktopQuery.addEventListener("change", closeOnDesktop);
+    return () => {
+      document.removeEventListener("keydown", closeOnEscape);
+      document.removeEventListener("pointerdown", closeOutside);
+      desktopQuery.removeEventListener("change", closeOnDesktop);
+    };
+  }, [isOpen, onClose]);
+
   return (
-    <>
-      <div className="flex md:hidden items-center justify-between w-full bg-background px-2.5 pt-1.5">
-        <Logo />
-        <div className={`flex items-center justify-center relative gap-2.5`}>
-          <button
-            onClick={onToggle}
-            aria-expanded={isOpen}
-            aria-controls="mobile-menu"
-            aria-label={isOpen ? "Close menu" : "Open menu"}
-            className="capitalize rounded-full border-2 p-2.5 font-medium hover:opacity-80 transition-opacity"
+    <div
+      ref={wrapperRef}
+      className={styles.mobileNav}
+      data-open={isOpen}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node))
+          onClose();
+      }}
+    >
+      <div className={styles.bar}>
+        <Link
+          href="/"
+          aria-label="Ahmad Hussaini — home"
+          className={styles.brand}
+          onClick={onClose}
+        >
+          Ahmad<span>.</span>
+          <svg
+            className={styles.brandCornerRight}
+            viewBox="0 0 100 100"
+            aria-hidden="true"
           >
-            {isOpen ? "Close" : "Menu"}
-          </button>
-          {isOpen && (
-            <svg
-              className="w-6 h-6 inline-block fill-accent absolute rotate-180 bottom-0 left-13.5"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 100 100"
-            >
-              <path d="m100,0H0v100C0,44.77,44.77,0,100,0Z" />
-            </svg>
-          )}
-          <div
-            className={`flex items-center justify-center rounded-tl-[20px] rounded-tr-[20px] p-2.5 ${isOpen ? "bg-accent" : ""}`}
+            <path d="M100 0H0v100C0 44.77 44.77 0 100 0Z" />
+          </svg>
+          <svg
+            className={styles.brandCornerBottom}
+            viewBox="0 0 100 100"
+            aria-hidden="true"
           >
-            <SocialLinks isMobile={isOpen} />
-          </div>
-        </div>
+            <path d="M100 0H0v100C0 44.77 44.77 0 100 0Z" />
+          </svg>
+        </Link>
+        <button
+          ref={buttonRef}
+          type="button"
+          onClick={onToggle}
+          aria-expanded={isOpen}
+          aria-controls="mobile-menu"
+          aria-label={isOpen ? "Close menu" : "Open menu"}
+          className={styles.toggle}
+        >
+          {isOpen ? "Close" : "Menu"}
+          <span
+            className={styles.menuIcon}
+            data-open={isOpen}
+            aria-hidden="true"
+          >
+            <span />
+            <span />
+          </span>
+        </button>
       </div>
 
       {isOpen && (
-        <div
-          id="mobile-menu"
-          role="menu"
-          aria-label="Mobile navigation menu"
-          className="relative h-[90dvh] bg-accent mx-2.5 rounded-tl-4xl rounded-bl-4xl rounded-br-4xl text-4xl p-2.5"
-        >
-          <nav className="flex flex-col items-start my-2.5">
-            <ul className="w-full flex flex-col items-start gap-5 px-2.5">
+        <div id="mobile-menu" className={styles.panel}>
+          <p className={styles.eyebrow}>Explore the portfolio</p>
+          <nav aria-label="Mobile navigation">
+            <ul className={styles.links}>
               {NAV_ITEMS.map(({ href, label }) => {
                 const isActive = isNavItemActive(href, currentPath, activeHash);
 
                 return (
-                  <li
-                    key={href}
-                    className="border-b border-foreground/50 py-2.5 w-full"
-                  >
+                  <li key={href}>
                     <Link
                       href={href}
-                      className={`flex items-center justify-between rounded-2xl px-3 py-2 transition-all duration-200 ${
+                      className={styles.navLink}
+                      aria-current={
                         isActive
-                          ? "bg-background text-foreground font-semibold shadow-sm"
-                          : "hover:bg-background/20 hover:text-foreground/70"
-                      }`}
-                      aria-current={isActive ? (href.includes("#") ? "location" : "page") : undefined}
+                          ? href.includes("#")
+                            ? "location"
+                            : "page"
+                          : undefined
+                      }
                       onClick={onClose}
                     >
                       {label}
-                      <span
-                        aria-hidden="true"
-                        className={`size-2 rounded-full bg-foreground transition-opacity ${isActive ? "opacity-100" : "opacity-0"}`}
-                      />
+                      <span aria-hidden="true" className={styles.linkArrow}>
+                        {isActive ? "•" : "↗"}
+                      </span>
                     </Link>
                   </li>
                 );
               })}
             </ul>
           </nav>
+          <div className={styles.footer}>
+            <svg
+              className={styles.footerCornerTop}
+              viewBox="0 0 100 100"
+              aria-hidden="true"
+            >
+              <path d="M100 0H0v100C0 44.77 44.77 0 100 0Z" />
+            </svg>
+            <svg
+              className={styles.footerCornerLeft}
+              viewBox="0 0 100 100"
+              aria-hidden="true"
+            >
+              <path d="M100 0H0v100C0 44.77 44.77 0 100 0Z" />
+            </svg>
+            <SocialLinks />
+          </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
 
@@ -207,7 +271,13 @@ function DesktopNav({
                         ? "bg-accent font-semibold text-accent-foreground shadow-sm"
                         : "hover:bg-foreground/5 hover:text-foreground/70 active:text-foreground"
                     }`}
-                    aria-current={isActive ? (href.includes("#") ? "location" : "page") : undefined}
+                    aria-current={
+                      isActive
+                        ? href.includes("#")
+                          ? "location"
+                          : "page"
+                        : undefined
+                    }
                   >
                     {label}
                   </Link>
@@ -241,6 +311,7 @@ export default function NavBar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeHash, setActiveHash] = useState("");
   const pathname = usePathname();
+  const closeMobileMenu = useCallback(() => setIsMobileMenuOpen(false), []);
 
   useEffect(() => {
     if (pathname !== "/") {
@@ -250,8 +321,13 @@ export default function NavBar() {
 
     const sections = NAV_ITEMS.map((item) => getSectionHash(item.href))
       .filter(Boolean)
-      .map((hash) => ({ hash, element: document.querySelector<HTMLElement>(hash) }))
-      .filter((section): section is { hash: string; element: HTMLElement } => Boolean(section.element));
+      .map((hash) => ({
+        hash,
+        element: document.querySelector<HTMLElement>(hash),
+      }))
+      .filter((section): section is { hash: string; element: HTMLElement } =>
+        Boolean(section.element),
+      );
 
     let frameId = 0;
 
@@ -259,8 +335,13 @@ export default function NavBar() {
       cancelAnimationFrame(frameId);
       frameId = requestAnimationFrame(() => {
         const viewportMarker = Math.min(220, window.innerHeight * 0.3);
-        const isAtPageEnd = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
-        let current = isAtPageEnd && sections.some(({ hash }) => hash === "#contact") ? "#contact" : "";
+        const isAtPageEnd =
+          window.innerHeight + window.scrollY >=
+          document.documentElement.scrollHeight - 4;
+        let current =
+          isAtPageEnd && sections.some(({ hash }) => hash === "#contact")
+            ? "#contact"
+            : "";
 
         if (!current) {
           for (const { hash, element } of sections) {
@@ -272,7 +353,9 @@ export default function NavBar() {
           }
         }
 
-        setActiveHash((previous) => (previous === current ? previous : current));
+        setActiveHash((previous) =>
+          previous === current ? previous : current,
+        );
       });
     };
 
@@ -287,13 +370,6 @@ export default function NavBar() {
     };
   }, [pathname]);
 
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      const firstLink = document.querySelector("#mobile-menu a");
-      (firstLink as HTMLElement)?.focus();
-    }
-  }, [isMobileMenuOpen]);
-
   return (
     <header
       role="banner"
@@ -302,7 +378,7 @@ export default function NavBar() {
       <MobileNav
         isOpen={isMobileMenuOpen}
         onToggle={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        onClose={() => setIsMobileMenuOpen(false)}
+        onClose={closeMobileMenu}
         activeHash={activeHash}
         currentPath={pathname}
       />
