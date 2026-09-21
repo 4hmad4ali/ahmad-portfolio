@@ -38,7 +38,7 @@ function Milestone({ entry, index }: { entry: JourneyEntry; index: number }) {
         {entry.organization && <p className="mt-3 text-sm font-medium leading-relaxed">{entry.organization}</p>}
         <p className="mt-5 text-sm leading-loose text-foreground/70 md:text-base">{entry.description}</p>
         {entry.mission && <p className="mt-5 border-l-2 border-accent/50 pl-4 text-sm leading-loose text-foreground/65">{entry.mission}</p>}
-        {entry.website && <a href={entry.website} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex rounded-sm text-sm underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">Explore {entry.organization} <span className="ml-2" aria-hidden="true">↗</span><span className="sr-only"> (opens in a new tab)</span></a>}
+        {entry.website && <a href={entry.website} target="_blank" rel="noopener noreferrer" className="mt-6 inline-flex rounded-sm text-sm underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">Explore {entry.organization} <span className="ml-2" aria-hidden="true"> </span><span className="sr-only"> (opens in a new tab)</span></a>}
         {featured && <p className="mt-6 border-t border-accent/25 pt-4 text-xs uppercase tracking-[0.14em] text-foreground/65">Learning continues. Building continues.</p>}
       </article>
     </motion.li>
@@ -102,7 +102,7 @@ function CommunityChapter() {
                     </div>
                   )}
                   {entry.focus && <ul aria-label="Areas of focus" className="mt-5 flex flex-wrap gap-2">{entry.focus.map((focus) => <li key={focus} className="rounded-full border border-[#dcb688]/30 px-3 py-1.5 text-xs leading-relaxed text-foreground/70">{focus}</li>)}</ul>}
-                  {entry.website && <div className="mt-auto pt-6"><a href={entry.website} target="_blank" rel="noopener noreferrer" className="inline-flex rounded-sm text-sm underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">Explore the organization <span className="ml-2" aria-hidden="true">↗</span><span className="sr-only"> (opens in a new tab)</span></a></div>}
+                  {entry.website && <div className="mt-auto pt-6"><a href={entry.website} target="_blank" rel="noopener noreferrer" className="inline-flex rounded-sm text-sm underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">Explore the organization <span className="ml-2" aria-hidden="true"> </span><span className="sr-only"> (opens in a new tab)</span></a></div>}
                 </article>
               </li>
             );

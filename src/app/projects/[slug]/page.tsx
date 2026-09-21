@@ -235,7 +235,7 @@ export default async function ProjectPage({
             href="/#contact"
             className="rounded-full bg-accent px-6 py-3 text-center text-sm font-medium text-accent-foreground transition-transform motion-safe:hover:-translate-y-0.5"
           >
-            Let’s talk ↗
+            Let’s talk  
           </Link>
         </footer>
       </MotionReveal>

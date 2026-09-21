@@ -11,7 +11,7 @@ export default function Projects() {
           <h2 className="text-4xl tracking-tight md:text-6xl">Ideas put into practice.</h2>
           <p className="mt-5 max-w-xl text-lg leading-relaxed text-foreground/65">A collection of completed systems and websites, built around the people who use them.</p>
         </div>
-        <Link href="/projects" className="shrink-0 text-sm underline underline-offset-8">All projects ↗</Link>
+        <Link href="/projects" className="shrink-0 text-sm underline underline-offset-8">All projects  </Link>
       </header>
       <ProjectCards />
       <Link
