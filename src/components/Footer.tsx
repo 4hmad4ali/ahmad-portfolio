@@ -18,13 +18,13 @@ const socials = [
     href: "https://linkedin.com/in/ahmad-hussaini-995042336/",
     icon: FaLinkedin,
   },
- /*  {
+  /*  {
     name: "Medium",
     value: "@mahdijafaridev",
     href: "https://mahdijafaridev.medium.com",
     icon: FaMedium,
   }, */
- /*  {
+  /*  {
     name: "YouTube",
     value: "@mahdijafaridev",
     href: "https://youtube.com/@mahdijafaridev",
@@ -56,7 +56,7 @@ export default function Footer() {
             <Link
               href="mailto:4hmad.aba@gmail.com?subject=Request%20for%20Collaboration"
               aria-label="Send an email to Ahmad Hussaini"
-              className="text-3xl md:text-5xl font-bold hover:opacity-70 transition-opacity duration-300 break-all px-4"
+              className="max-w-full whitespace-nowrap px-1 text-[clamp(1.1rem,5.8vw,1.875rem)] font-semibold tracking-[-0.045em] hover:opacity-70 transition-opacity duration-300 md:px-4 md:text-5xl md:tracking-[-0.04em]"
             >
               4hmad.aba@gmail.com
             </Link>
