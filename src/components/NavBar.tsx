@@ -68,7 +68,7 @@ function SocialLinks() {
             <Icon aria-hidden="true" />
             <span>{label}</span>
             <span aria-hidden="true" className={styles.externalArrow}>
-              ↗
+                
             </span>
           </Link>
         </li>
@@ -197,7 +197,7 @@ function MobileNav({
                     >
                       {label}
                       <span aria-hidden="true" className={styles.linkArrow}>
-                        {isActive ? "•" : "↗"}
+                        {isActive ? "•" : "  "}
                       </span>
                     </Link>
                   </li>
